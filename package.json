@@ -1,0 +1,35 @@
+{
+  "name": "tehillim-split",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "@sveltejs/vite-plugin-svelte": "^2.0.0",
+    "autoprefixer": "^10.4.16",
+    "postcss": "^8.4.31",
+    "prettier": "^3.0.3",
+    "prettier-plugin-svelte": "^3.0.3",
+    "prettier-plugin-tailwindcss": "^0.5.5",
+    "serve": "^14.2.1",
+    "svelte": "^3.54.0",
+    "tailwindcss": "^3.3.3",
+    "vite": "^4.0.0",
+    "yarn": "^1.22.19"
+  },
+  "dependencies": {
+    "appwrite": "^13.0.0",
+    "svelte-navigator": "^3.2.2",
+    "svelte-routing": "^2.5.0"
+  },
+  "prettier": {
+    "plugins": [
+      "prettier-plugin-tailwindcss",
+      "prettier-plugin-svelte"
+    ]
+  }
+}
