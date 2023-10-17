@@ -36,8 +36,9 @@
         >
       {/if}
       {#each lists.documents as list}
-        <Link class="text-blue-400" to="/list/{list['$id']}">{list['title']}</Link>
+        <Link class="text-blue-400" to="/list/{list['$id']}">{list['title']}</Link><br>
       {/each}
+      <Link class="text-blue-400" to="/lists/create">Create new list</Link>
     {/await}
   </div>
 </main>

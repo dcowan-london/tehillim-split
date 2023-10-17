@@ -35,6 +35,7 @@
     {#await members}
       Loading...
     {:then members}
+    <Link to="/list/{id}" class="text-blue-400">Back to {members.memberships[0].teamName}</Link><br>
       {#each members.memberships as member}
         <div class="m-1">
           {member.userName} - {member.userEmail}

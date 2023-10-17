@@ -2,7 +2,7 @@
   import { ID, Permission, Query, Role } from "appwrite";
   import Header from "../../lib/Header.svelte";
   import { database, loggedInUser } from "../../lib/appwrite";
-    import { Link } from "svelte-navigator";
+  import { Link } from "svelte-navigator";
 
   export let id;
 
@@ -33,11 +33,11 @@
           perek: perek,
           taken: true,
           taken_by: loggedInUser["$id"],
+          taken_by_name: loggedInUser['name']
         },
         [
           Permission.read(Role.team(id)),
           Permission.write(Role.user(loggedInUser["$id"])),
-          Permission.write(Role.team("admins-" + id)),
         ],
       )
       .then(() => {
@@ -111,7 +111,7 @@
     {:then list}
       <h1 class="text-2xl">List {list.title}</h1>
       <br />
-      <Link class="text-blue-400" to="/list/{id}/members">Members</Link><br>
+      <Link class="text-blue-400" to="/list/{id}/members">Members</Link><br />
       {#await perakimPromise then perakimResolved}
         {#each Array.from(Array(150 + 1).keys()).slice(1) as i}
           {#if perekIndex(i) !== -1}
@@ -141,8 +141,10 @@
                 class="dark:bg-gray-600 bg-gray-400 border p-1 mt-2 rounded"
                 >Uncomplete</button
               >
+            {:else if perakim[perekIndex(i)].completed == false}
+              Perek {i} - Taken by {perakim[perekIndex(i)].taken_by_name}
             {:else}
-              Perek {i} - Taken
+              Perek {i} - Completed by {perakim[perekIndex(i)].taken_by_name}
             {/if}
           {:else}
             Perek {i}
