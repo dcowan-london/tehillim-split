@@ -5,9 +5,9 @@
   import { navigate } from "svelte-navigator/src/history";
 
   const searchParams = new URLSearchParams(document.location.search);
-  let confirmed = true;
+  let confirmed = false;
   let alreadyConfirmed = false;
-  let newUser = true;
+  let newUser = false;
 
   let name = "";
   let email = "";
@@ -78,7 +78,7 @@
       You're trying to accept an invitation for a different user. Please sign
       out to accept this invitation.
     {:else if confirmed == true}
-      Invitation confirmed!
+      Invitation confirmed! <Link class="text-blue-400" to="/list/{searchParams.get('teamId')}">Go to list</Link>
 
       {#if newUser == true}
         Welcome to Tehillim Split! Complete your new user profile below.

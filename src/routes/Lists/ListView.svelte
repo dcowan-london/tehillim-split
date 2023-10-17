@@ -106,6 +106,7 @@
   <Header />
 
   <div class="my-5">
+    <Link class="text-blue-400" to="/">Home</Link>
     {#await list}
       Loading...
     {:then list}
