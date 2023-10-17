@@ -8,6 +8,7 @@
     loggedInUser,
     teams,
   } from "../../lib/appwrite";
+    import { navigate } from "svelte-navigator/src/history";
 
   let listname = "";
   let requireLoggedIn = false;
@@ -22,26 +23,24 @@
         owner_id: loggedInUser["$id"],
       })
       .then((r) => {
-        teams.create(r["$id"], listname).then((r) => {
+        teams.create(r["$id"], listname, ["admin"]).then((r) => {
           let permissions = [
             Permission.read(Role.user(loggedInUser["$id"])),
             Permission.read(Role.team(r["$id"])),
-            Permission.write(Role.team("admins-" + r["$id"])),
           ];
 
           if (requireLoggedIn == false) {
             permissions.push(Permission.read(Role.any()));
           }
 
-          teams.create("admins-" + r["$id"], listname + " Admins").then(() => {
-            console.log(r);
-            database.updateDocument(
-              "tehillim-split",
-              "lists",
-              r["$id"],
-              {},
-              permissions,
-            );
+          database.updateDocument(
+            "tehillim-split",
+            "lists",
+            r["$id"],
+            {},
+            permissions,
+          ).then(() => {
+            navigate('/list/' + r["$id"], {});
           });
         });
         console.log(r);

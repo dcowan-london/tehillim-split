@@ -1,6 +1,9 @@
 <script>
   import { navigate } from "svelte-navigator/src/history";
   import { ID, account } from "../lib/appwrite";
+  import { Link } from "svelte-navigator";
+
+  const urlParams = new URLSearchParams(document.location.search);
 
   let name = "";
   let email = "";
@@ -21,7 +24,11 @@
     account
       .createVerification("http://localhost:5173/register/emailVerify")
       .then((r) => {
-        navigate("/");
+        if (urlParams.get("redirect_uri") == null) {
+          navigate("/", {});
+        } else {
+          navigate(urlParams.get("redirect_uri"), {});
+        }
       })
       .catch((e) => (error.innerText = e));
   }
@@ -67,10 +74,12 @@
       class="dark:bg-gray-600 bg-gray-400 border p-1 mt-2 rounded"
       type="submit">Register</button
     >
-    <button
+    <Link
       class="dark:bg-gray-600 bg-gray-400 border p-1 mt-2 rounded"
       type="button"
-      on:click={() => navigate("/login")}>Go to Log In</button
+      to="/login{urlParams.get('redirect_uri') !== null
+        ? '?redirect_uri=' + encodeURIComponent(urlParams.get('redirect_uri'))
+        : undefined}">Go to Log In</Link
     ><br />
     <p class="text-red-600" bind:this={error}></p>
   </fieldset>

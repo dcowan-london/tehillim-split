@@ -8,6 +8,7 @@
     import ListView from "./routes/Lists/ListView.svelte";
     import ListCreate from "./routes/Lists/ListCreate.svelte";
     import ListMembers from "./routes/Lists/ListMembers.svelte";
+    import AcceptInvitation from "./routes/AcceptInvitation.svelte";
 
   export let url = "";
 
@@ -17,6 +18,7 @@
   <Route path="/register/emailVerify" component={EmailVerify} />
   <Route path="/register" component={Register} />
   <Route path="/login" component={Login} />
+  <Route path="/accept_list_invitation" component={AcceptInvitation} />
   <Route path="/list/:id/members" component={ListMembers} />
   <Route path="/list/:id" component={ListView} />
   <Route path="/lists/create" component={ListCreate} />

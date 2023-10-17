@@ -7,16 +7,24 @@
 
   let list = database.getDocument("tehillim-split", "lists", id);
   let members = teams.listMemberships(id);
-  let adminMembers = teams.listMemberships("admins-" + id);
 
-  const memberIndex = (adminMembers, i) => {
-    console.log(adminMembers);
-    let index = adminMembers.memberships.findIndex((e) => e.userId == i.userId);
+  const rolesIndex = (user, role) => {
+    let index = user.roles.findIndex((e) => e == role);
     return index;
   };
 
   function inviteMember() {
-    prompt("Enter member email address")
+    let email = prompt("Enter member email address");
+    if (email !== "") {
+      teams.createMembership(
+        id,
+        [],
+        email,
+        undefined,
+        undefined,
+        "http://localhost:5173/accept_list_invitation",
+      );
+    }
   }
 </script>
 
@@ -27,17 +35,17 @@
     {#await members}
       Loading...
     {:then members}
-      {#await adminMembers then adminMembers}
-        {#each members.memberships as member}
-          <div class="m-1">
-            {member.userName} - {member.userEmail}
-            {#if memberIndex(adminMembers, member) !== -1}
-              <span class="border p-1">List Admin</span>
-            {/if}
-          </div>
-        {/each}
-        <Link class="text-blue-400" to="#" on:click={inviteMember}>Invite member</Link>
-      {/await}
+      {#each members.memberships as member}
+        <div class="m-1">
+          {member.userName} - {member.userEmail}
+          {#if rolesIndex(member, 'admin') !== -1}
+            <span class="border p-1">List Admin</span>
+          {/if}
+        </div>
+      {/each}
+      <Link class="text-blue-400" to="#" on:click={inviteMember}
+        >Invite member</Link
+      >
     {/await}
   </div>
 </main>

@@ -1,9 +1,10 @@
 <script>
   import { navigate } from "svelte-navigator/src/history";
   import { account, loggedInUser } from "../lib/appwrite";
-    import { useFocus } from "svelte-navigator";
+  import { Link, useFocus } from "svelte-navigator";
 
   const registerFocus = useFocus();
+  const urlParams = new URLSearchParams(document.location.search);
 
   if (loggedInUser !== null) {
     console.log(loggedInUser);
@@ -27,7 +28,11 @@
       .createEmailSession(email, password)
       .then((r) => {
         // location.href = "/";
-        navigate("/", {});
+        if (urlParams.get("redirect_uri") == null) {
+          navigate("/", {});
+        } else {
+          navigate(urlParams.get("redirect_uri"), {});
+        }
       })
       .catch((e) => {
         submitButton.removeAttribute("disabled");
@@ -72,10 +77,12 @@
       type="submit"
       bind:this={submitButton}>Log In</button
     >
-    <button
+    <Link
       class="dark:bg-gray-600 bg-gray-400 border p-1 mt-2 rounded"
       type="button"
-      on:click={() => navigate("/register", {})}>Go to Register</button
+      to="/register{urlParams.get('redirect_uri') !== null
+        ? '?redirect_uri=' + encodeURIComponent(urlParams.get('redirect_uri'))
+        : undefined}">Go to Register</Link
     ><br />
     <p class="text-red-600" bind:this={error}></p>
   </fieldset>
