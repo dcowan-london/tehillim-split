@@ -6,9 +6,11 @@
     database,
     logOut,
     loggedInUser,
+    teams,
   } from "../lib/appwrite";
   import { Link } from "svelte-navigator";
   import Header from "../lib/Header.svelte";
+  import { Query } from "appwrite";
 
   // navigate("/login", {});
 
@@ -16,10 +18,7 @@
 
   checkloggedin();
 
-  const lists = database.listDocuments(
-    import.meta.env.VITE_APPWRITE_DB_ID,
-    "lists",
-  );
+  const lists = teams.list();
 </script>
 
 <main class="container m-5">
@@ -30,13 +29,15 @@
     {#await lists}
       Loading...
     {:then lists}
-      {#if lists.total == 0}
+      {#if lists.teams.length == 0}
         You have no lists yet! <Link to="/lists/create" class="text-blue-400"
           >Create one now</Link
         >
       {/if}
-      {#each lists.documents as list}
-        <Link class="text-blue-400" to="/list/{list['$id']}">{list['title']}</Link><br>
+      {#each lists.teams as list}
+        <Link class="text-blue-400" to="/list/{list['$id']}"
+          >{list["name"]}</Link
+        ><br />
       {/each}
       <Link class="text-blue-400" to="/lists/create">Create new list</Link>
     {/await}
