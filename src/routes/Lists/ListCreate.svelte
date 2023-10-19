@@ -23,7 +23,7 @@
         owner_id: loggedInUser["$id"],
       })
       .then((r) => {
-        teams.create(r["$id"], listname, ["admin"]).then((r) => {
+        teams.create(r["$id"], listname, ["owner"]).then((r) => {
           let permissions = [
             Permission.read(Role.user(loggedInUser["$id"])),
             Permission.read(Role.team(r["$id"])),
