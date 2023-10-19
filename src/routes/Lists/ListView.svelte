@@ -1,8 +1,9 @@
 <script>
   import { ID, Permission, Query, Role } from "appwrite";
   import Header from "../../lib/Header.svelte";
-  import { database, loggedInUser } from "../../lib/appwrite";
+  import { database, loggedInUser, teams } from "../../lib/appwrite";
   import { Link } from "svelte-navigator";
+  import { navigate } from "svelte-navigator/src/history";
 
   export let id;
 
@@ -13,6 +14,16 @@
     .then((r) => {
       perakim = r.documents;
     });
+
+  let teamDetails = teams.listMemberships(id);
+
+  const userIsAdmin = (users, id) => {
+    let index = users.memberships.findIndex((e) => e.userId == id);
+    if (users.memberships[index].roles.includes("owner")) {
+      return true;
+    }
+    return false;
+  };
 
   const perekIndex = (i) => {
     let index = perakim.findIndex((e) => e.perek == i);
@@ -33,7 +44,7 @@
           perek: perek,
           taken: true,
           taken_by: loggedInUser["$id"],
-          taken_by_name: loggedInUser['name']
+          taken_by_name: loggedInUser["name"],
         },
         [
           Permission.read(Role.team(id)),
@@ -49,6 +60,26 @@
             perakim = r.documents;
           });
       });
+  }
+
+  function renameList() {
+    let newTitle = prompt("Enter new name");
+
+    if (newTitle !== "") {
+      database
+        .updateDocument("tehillim-split", "lists", id, {
+          title: newTitle,
+        })
+        .then(
+          () => (list = database.getDocument("tehillim-split", "lists", id)),
+        );
+    }
+  }
+
+  function deleteList() {
+    database
+      .deleteDocument("tehillim-split", "lists", id)
+      .then(() => teams.delete(id).then(() => navigate("/", {})));
   }
 
   function completePerek(perek) {
@@ -112,7 +143,17 @@
     {:then list}
       <h1 class="text-2xl">List {list.title}</h1>
       <br />
-      <Link class="text-blue-400" to="/list/{id}/members">Members</Link><br />
+      <Link class="text-blue-400" to="/list/{id}/members">Members</Link>
+      {#await teamDetails then team}
+        {#if userIsAdmin(team, loggedInUser["$id"])}
+          | <Link class="text-blue-400" to="#" on:click={() => renameList()}
+            >Rename list</Link
+          >
+          | <Link class="text-blue-400" to="#" on:click={() => deleteList()}
+            >Delete list</Link
+          >
+        {/if}
+      {/await}<br />
       {#await perakimPromise then perakimResolved}
         {#each Array.from(Array(150 + 1).keys()).slice(1) as i}
           {#if perekIndex(i) !== -1}

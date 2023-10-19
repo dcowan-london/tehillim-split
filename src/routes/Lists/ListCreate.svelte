@@ -27,6 +27,8 @@
           let permissions = [
             Permission.read(Role.user(loggedInUser["$id"])),
             Permission.read(Role.team(r["$id"])),
+            Permission.write(Role.team(r["$id"], 'owner')),
+            Permission.delete(Role.team(r["$id"], 'owner'))
           ];
 
           if (requireLoggedIn == false) {
