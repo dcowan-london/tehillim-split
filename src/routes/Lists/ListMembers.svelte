@@ -1,7 +1,14 @@
 <script>
   import { Link } from "svelte-navigator";
   import Header from "../../lib/Header.svelte";
-  import { database, loggedInUser, teams } from "../../lib/appwrite";
+  import {
+    checkloggedin,
+    database,
+    loggedInUser,
+    teams,
+  } from "../../lib/appwrite";
+
+  checkloggedin();
 
   export let id;
 
@@ -35,7 +42,7 @@
           email,
           undefined,
           undefined,
-          "http://localhost:5173/accept_list_invitation",
+          window.location.protocol + "//" + window.location.host + "/accept_list_invitation",
         )
         .then(() => getData());
     }

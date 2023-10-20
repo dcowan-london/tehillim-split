@@ -22,7 +22,7 @@
     await account.updateName(name).catch((e) => (error.innerText = e));
 
     account
-      .createVerification("http://localhost:5173/register/emailVerify")
+      .createVerification(window.location.protocol + "//" + window.location.host + "/register/emailVerify")
       .then((r) => {
         if (urlParams.get("redirect_uri") == null) {
           navigate("/", {});
@@ -79,7 +79,7 @@
       type="button"
       to="/login{urlParams.get('redirect_uri') !== null
         ? '?redirect_uri=' + encodeURIComponent(urlParams.get('redirect_uri'))
-        : undefined}">Go to Log In</Link
+        : ''}">Go to Log In</Link
     ><br />
     <p class="text-red-600" bind:this={error}></p>
   </fieldset>

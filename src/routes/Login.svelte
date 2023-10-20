@@ -82,7 +82,7 @@
       type="button"
       to="/register{urlParams.get('redirect_uri') !== null
         ? '?redirect_uri=' + encodeURIComponent(urlParams.get('redirect_uri'))
-        : undefined}">Go to Register</Link
+        : ''}">Go to Register</Link
     ><br />
     <p class="text-red-600" bind:this={error}></p>
   </fieldset>
