@@ -7,7 +7,14 @@
 
   export let id;
 
+  let elementsNumbers = 0;
+
   let list = database.getDocument("tehillim-split", "lists", id);
+
+  list.then((r) => {
+    if (r.list_type == "perakim") elementsNumbers = 151;
+    if (r.list_type == "month") elementsNumbers = 31;
+  });
   let perakim = [];
   let perakimPromise = database
     .listDocuments("tehillim-split", "perakim", [Query.equal("list_id", [id])])
@@ -142,6 +149,7 @@
       Loading...
     {:then list}
       <h1 class="text-2xl">List {list.title}</h1>
+      <p>List split by {list.list_type=="perakim"?"perek":""}{list.list_type=="month"?"days of month":""}</p>
       <br />
       <Link class="text-blue-400" to="/list/{id}/members">Members</Link>
       {#await teamDetails then team}
@@ -155,17 +163,17 @@
         {/if}
       {/await}<br />
       {#await perakimPromise then perakimResolved}
-        {#each Array.from(Array(150 + 1).keys()).slice(1) as i}
+        {#each Array.from(Array(elementsNumbers).keys()).slice(1) as i}
+          {list.list_type == "perakim" ? "Perek " + i : ""}
+          {list.list_type == "month" ? "Day " + i : ""}
           {#if perekIndex(i) !== -1}
             {#if perakim[perekIndex(i)].taken == false}
-              Perek {i}
               <button
                 on:click={() => takePerek(i)}
                 class="dark:bg-gray-600 bg-gray-400 border p-1 mt-2 rounded"
                 >Take</button
               >
             {:else if perakim[perekIndex(i)].taken_by == loggedInUser["$id"] && perakim[perekIndex(i)].completed !== true}
-              Perek {i}
               <button
                 on:click={() => untakePerek(i)}
                 class="dark:bg-gray-600 bg-gray-400 border p-1 mt-2 rounded"
@@ -177,19 +185,17 @@
                 >Complete</button
               >
             {:else if perakim[perekIndex(i)].taken_by == loggedInUser["$id"] && perakim[perekIndex(i)].completed == true}
-              Perek {i}
               <button
                 on:click={() => uncompletePerek(i)}
                 class="dark:bg-gray-600 bg-gray-400 border p-1 mt-2 rounded"
                 >Uncomplete</button
               >
             {:else if perakim[perekIndex(i)].completed == false}
-              Perek {i} - Taken by {perakim[perekIndex(i)].taken_by_name}
+              - Taken by {perakim[perekIndex(i)].taken_by_name}
             {:else}
-              Perek {i} - Completed by {perakim[perekIndex(i)].taken_by_name}
+              - Completed by {perakim[perekIndex(i)].taken_by_name}
             {/if}
           {:else}
-            Perek {i}
             <button
               on:click={() => takeNewPerek(i)}
               class="dark:bg-gray-600 bg-gray-400 border p-1 mt-2 rounded"

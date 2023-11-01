@@ -15,6 +15,7 @@
 
   let listname = "";
   let requireLoggedIn = false;
+  let list_type = "";
 
   function createList(e) {
     e.preventDefault();
@@ -22,8 +23,9 @@
     database
       .createDocument("tehillim-split", "lists", ID.unique(), {
         title: listname,
-        require_logged_in: requireLoggedIn,
+        require_logged_in: !!requireLoggedIn,
         owner_id: loggedInUser["$id"],
+        list_type: list_type
       })
       .then((r) => {
         teams.create(r["$id"], listname, ["owner"]).then((r) => {
@@ -66,12 +68,23 @@
         <legend class="text-2xl">Create new list</legend>
 
         <input
-          class="dark:bg-gray-500 dark:placeholder-white border border-black dark:border-current rounded p-1"
+          class="dark:bg-gray-500 dark:placeholder-white border border-black dark:border-current rounded p-2 w-72"
           type="text"
           placeholder="List name"
           bind:value={listname}
           required
         /> <br />
+
+        <select
+          class="dark:bg-gray-500 dark:placeholder-white border border-black dark:border-current rounded p-2 mt-2 w-72"
+          placeholder="Split Tehillim by"
+          bind:value={list_type}
+          required
+        >
+          <option value="" selected disabled>Split Tehillim by</option>
+          <option value="perakim">Perakim</option>
+          <option value="month">Days of the month</option>
+        </select> <br />
 
         <input
           class="w-5 h-5 border-solid border-white my-3"
