@@ -35,14 +35,18 @@
         >
       {:else}
         {#each lists.teams as list}
-          <Link class="text-blue-400" to="/list/{list['$id']}"
-            >{list["name"]}</Link
-          ><br />
+          <p class="mt-2">
+            <Link class="text-blue-400" to="/list/{list['$id']}"
+              >{list["name"]}</Link
+            ><br />
+          </p>
         {/each}
-        <Link
-          class="text-blue-400 dark:bg-gray-600 bg-gray-400 border p-1 mt-4 rounded"
-          to="/lists/create">Create new list</Link
-        >
+        <p class="mt-3">
+          <Link
+            class="text-blue-400 dark:bg-gray-600 bg-gray-400 border p-1 rounded"
+            to="/lists/create">Create new list</Link
+          >
+        </p>
       {/if}
     {/await}
   </div>
