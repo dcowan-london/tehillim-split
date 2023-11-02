@@ -10,7 +10,7 @@ The Github repo is a mirror of the repo on my self-hosted Git server at https://
 Tehillim Split is built on top of Appwrite BaaS and the frontend is Svelte+Vite. To host it yourself, you'll either need your own Appwrite self hosted instance, or you can use [Appwrite Cloud](cloud.appwrite.io).
 
 ### Deploy to Appwrite
-1. Set up the Appwrite CLI, and connect it to your Appwrite instance with `$ appwrite login`
+1. Install the [Appwrite CLI](https://appwrite.io/docs/tooling/command-line/installation), and connect it to your Appwrite instance with `$ appwrite login`
 2. Create a new Project with `$ appwrite init project`.
 3. Deploy the DB with `$ appwrite deploy collection`. Select all Collections.
 4. Update `VITE_APPWRITE_ENDPOINT` and `VITE_APPWRITE_PROJECT_ID` in `.env`.
