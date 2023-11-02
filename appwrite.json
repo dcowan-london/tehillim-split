@@ -1,0 +1,170 @@
+{
+    "projectId": "6524683fc8d947fe9a07",
+    "projectName": "Tehillim Split",
+    "databases": [
+        {
+            "$id": "tehillim-split",
+            "name": "tehillim-split",
+            "$createdAt": "2023-10-11T14:08:05.106+00:00",
+            "$updatedAt": "2023-10-11T14:08:05.106+00:00",
+            "enabled": true
+        }
+    ],
+    "collections": [
+        {
+            "$id": "lists",
+            "$permissions": [
+                "create(\"users\")"
+            ],
+            "databaseId": "tehillim-split",
+            "name": "Lists",
+            "enabled": true,
+            "documentSecurity": true,
+            "attributes": [
+                {
+                    "key": "title",
+                    "type": "string",
+                    "status": "available",
+                    "error": "",
+                    "required": true,
+                    "array": false,
+                    "size": 1000,
+                    "default": null
+                },
+                {
+                    "key": "require_logged_in",
+                    "type": "boolean",
+                    "status": "available",
+                    "error": "",
+                    "required": false,
+                    "array": false,
+                    "default": false
+                },
+                {
+                    "key": "owner_id",
+                    "type": "string",
+                    "status": "available",
+                    "error": "",
+                    "required": true,
+                    "array": false,
+                    "size": 40,
+                    "default": null
+                },
+                {
+                    "key": "list_type",
+                    "type": "string",
+                    "status": "available",
+                    "error": "",
+                    "required": true,
+                    "array": false,
+                    "elements": [
+                        "perakim",
+                        "month"
+                    ],
+                    "format": "enum",
+                    "default": null
+                }
+            ],
+            "indexes": [
+                {
+                    "key": "require_logged_in",
+                    "type": "key",
+                    "status": "available",
+                    "error": "",
+                    "attributes": [
+                        "require_logged_in"
+                    ],
+                    "orders": [
+                        "ASC"
+                    ]
+                }
+            ]
+        },
+        {
+            "$id": "perakim",
+            "$permissions": [
+                "create(\"users\")",
+                "read(\"users\")"
+            ],
+            "databaseId": "tehillim-split",
+            "name": "Perakim",
+            "enabled": true,
+            "documentSecurity": true,
+            "attributes": [
+                {
+                    "key": "list_id",
+                    "type": "string",
+                    "status": "available",
+                    "error": "",
+                    "required": true,
+                    "array": false,
+                    "size": 50,
+                    "default": null
+                },
+                {
+                    "key": "perek",
+                    "type": "integer",
+                    "status": "available",
+                    "error": "",
+                    "required": true,
+                    "array": false,
+                    "min": 1,
+                    "max": 150,
+                    "default": null
+                },
+                {
+                    "key": "taken",
+                    "type": "boolean",
+                    "status": "available",
+                    "error": "",
+                    "required": false,
+                    "array": false,
+                    "default": false
+                },
+                {
+                    "key": "completed",
+                    "type": "boolean",
+                    "status": "available",
+                    "error": "",
+                    "required": false,
+                    "array": false,
+                    "default": false
+                },
+                {
+                    "key": "taken_by",
+                    "type": "string",
+                    "status": "available",
+                    "error": "",
+                    "required": false,
+                    "array": false,
+                    "size": 50,
+                    "default": null
+                },
+                {
+                    "key": "taken_by_name",
+                    "type": "string",
+                    "status": "available",
+                    "error": "",
+                    "required": false,
+                    "array": false,
+                    "size": 800,
+                    "default": null
+                }
+            ],
+            "indexes": [
+                {
+                    "key": "list_id",
+                    "type": "key",
+                    "status": "available",
+                    "error": "",
+                    "attributes": [
+                        "list_id"
+                    ],
+                    "orders": [
+                        "ASC"
+                    ]
+                }
+            ]
+        }
+    ]
+}

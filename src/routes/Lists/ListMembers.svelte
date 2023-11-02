@@ -12,7 +12,11 @@
 
   export let id;
 
-  let list = database.getDocument("tehillim-split", "lists", id);
+  let list = database.getDocument(
+    import.meta.env.VITE_APPWRITE_DB_ID,
+    "lists",
+    id,
+  );
   let members = teams.listMemberships(id);
 
   const rolesIndex = (user, role) => {
@@ -42,7 +46,10 @@
           email,
           undefined,
           undefined,
-          window.location.protocol + "//" + window.location.host + "/accept_list_invitation",
+          window.location.protocol +
+            "//" +
+            window.location.host +
+            "/accept_list_invitation",
         )
         .then(() => getData());
     }

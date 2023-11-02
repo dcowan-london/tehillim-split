@@ -21,7 +21,7 @@
     e.preventDefault();
 
     database
-      .createDocument("tehillim-split", "lists", ID.unique(), {
+      .createDocument(import.meta.env.VITE_APPWRITE_DB_ID, "lists", ID.unique(), {
         title: listname,
         require_logged_in: !!requireLoggedIn,
         owner_id: loggedInUser["$id"],
@@ -42,7 +42,7 @@
 
           database
             .updateDocument(
-              "tehillim-split",
+              import.meta.env.VITE_APPWRITE_DB_ID,
               "lists",
               r["$id"],
               {},

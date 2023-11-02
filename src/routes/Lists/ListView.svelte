@@ -9,7 +9,11 @@
 
   let elementsNumbers = 0;
 
-  let list = database.getDocument("tehillim-split", "lists", id);
+  let list = database.getDocument(
+    import.meta.env.VITE_APPWRITE_DB_ID,
+    "lists",
+    id,
+  );
 
   list.then((r) => {
     if (r.list_type == "perakim") elementsNumbers = 151;
@@ -17,7 +21,9 @@
   });
   let perakim = [];
   let perakimPromise = database
-    .listDocuments("tehillim-split", "perakim", [Query.equal("list_id", [id])])
+    .listDocuments(import.meta.env.VITE_APPWRITE_DB_ID, "perakim", [
+      Query.equal("list_id", [id]),
+    ])
     .then((r) => {
       perakim = r.documents;
     });
@@ -43,7 +49,7 @@
     console.log(perek);
     database
       .createDocument(
-        "tehillim-split",
+        import.meta.env.VITE_APPWRITE_DB_ID,
         "perakim",
         ID.unique(),
         {
@@ -60,7 +66,7 @@
       )
       .then(() => {
         perakimPromise = database
-          .listDocuments("tehillim-split", "perakim", [
+          .listDocuments(import.meta.env.VITE_APPWRITE_DB_ID, "perakim", [
             Query.equal("list_id", [id]),
           ])
           .then((r) => {
@@ -74,18 +80,23 @@
 
     if (newTitle !== "") {
       database
-        .updateDocument("tehillim-split", "lists", id, {
+        .updateDocument(import.meta.env.VITE_APPWRITE_DB_ID, "lists", id, {
           title: newTitle,
         })
         .then(
-          () => (list = database.getDocument("tehillim-split", "lists", id)),
+          () =>
+            (list = database.getDocument(
+              import.meta.env.VITE_APPWRITE_DB_ID,
+              "lists",
+              id,
+            )),
         );
     }
   }
 
   function deleteList() {
     database
-      .deleteDocument("tehillim-split", "lists", id)
+      .deleteDocument(import.meta.env.VITE_APPWRITE_DB_ID, "lists", id)
       .then(() => teams.delete(id).then(() => navigate("/", {})));
   }
 
@@ -93,12 +104,17 @@
     let perekDBId = perakim[perekIndex(perek)]["$id"];
 
     database
-      .updateDocument("tehillim-split", "perakim", perekDBId, {
-        completed: true,
-      })
+      .updateDocument(
+        import.meta.env.VITE_APPWRITE_DB_ID,
+        "perakim",
+        perekDBId,
+        {
+          completed: true,
+        },
+      )
       .then(() => {
         perakimPromise = database
-          .listDocuments("tehillim-split", "perakim", [
+          .listDocuments(import.meta.env.VITE_APPWRITE_DB_ID, "perakim", [
             Query.equal("list_id", [id]),
           ])
           .then((r) => {
@@ -111,12 +127,17 @@
     let perekDBId = perakim[perekIndex(perek)]["$id"];
 
     database
-      .updateDocument("tehillim-split", "perakim", perekDBId, {
-        completed: false,
-      })
+      .updateDocument(
+        import.meta.env.VITE_APPWRITE_DB_ID,
+        "perakim",
+        perekDBId,
+        {
+          completed: false,
+        },
+      )
       .then(() => {
         perakimPromise = database
-          .listDocuments("tehillim-split", "perakim", [
+          .listDocuments(import.meta.env.VITE_APPWRITE_DB_ID, "perakim", [
             Query.equal("list_id", [id]),
           ])
           .then((r) => {
@@ -128,15 +149,17 @@
   function untakePerek(perek) {
     let perekDBId = perakim[perekIndex(perek)]["$id"];
 
-    database.deleteDocument("tehillim-split", "perakim", perekDBId).then(() => {
-      perakimPromise = database
-        .listDocuments("tehillim-split", "perakim", [
-          Query.equal("list_id", [id]),
-        ])
-        .then((r) => {
-          perakim = r.documents;
-        });
-    });
+    database
+      .deleteDocument(import.meta.env.VITE_APPWRITE_DB_ID, "perakim", perekDBId)
+      .then(() => {
+        perakimPromise = database
+          .listDocuments(import.meta.env.VITE_APPWRITE_DB_ID, "perakim", [
+            Query.equal("list_id", [id]),
+          ])
+          .then((r) => {
+            perakim = r.documents;
+          });
+      });
   }
 </script>
 
@@ -149,7 +172,11 @@
       Loading...
     {:then list}
       <h1 class="text-2xl">List {list.title}</h1>
-      <p>List split by {list.list_type=="perakim"?"perek":""}{list.list_type=="month"?"days of month":""}</p>
+      <p>
+        List split by {list.list_type == "perakim"
+          ? "perek"
+          : ""}{list.list_type == "month" ? "days of month" : ""}
+      </p>
       <br />
       <Link class="text-blue-400" to="/list/{id}/members">Members</Link>
       {#await teamDetails then team}

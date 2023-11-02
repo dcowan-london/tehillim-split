@@ -4,8 +4,8 @@ import { navigate } from 'svelte-navigator';
 const appwrite = new Client();
 
 appwrite
-    .setEndpoint("https://api.fnukapps.com/v1")
-    .setProject("6524683fc8d947fe9a07")
+    .setEndpoint(import.meta.env.VITE_APPWRITE_ENDPOINT)
+    .setProject(import.meta.env.VITE_APPWRITE_PROJECT_ID)
 
 
 export const account = new Account(appwrite);
