@@ -43,7 +43,7 @@
         {/each}
         <p class="mt-3">
           <Link
-            class="text-blue-400 dark:bg-gray-600 bg-gray-400 border p-1 rounded"
+            class="dark:bg-gray-600 bg-gray-400 text-white border p-1 mt-2 rounded"
             to="/lists/create">Create new list</Link
           >
         </p>

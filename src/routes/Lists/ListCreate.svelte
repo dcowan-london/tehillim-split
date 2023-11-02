@@ -21,12 +21,17 @@
     e.preventDefault();
 
     database
-      .createDocument(import.meta.env.VITE_APPWRITE_DB_ID, "lists", ID.unique(), {
-        title: listname,
-        require_logged_in: !!requireLoggedIn,
-        owner_id: loggedInUser["$id"],
-        list_type: list_type
-      })
+      .createDocument(
+        import.meta.env.VITE_APPWRITE_DB_ID,
+        "lists",
+        ID.unique(),
+        {
+          title: listname,
+          require_logged_in: !!requireLoggedIn,
+          owner_id: loggedInUser["$id"],
+          list_type: list_type,
+        },
+      )
       .then((r) => {
         teams.create(r["$id"], listname, ["owner"]).then((r) => {
           let permissions = [
@@ -98,7 +103,7 @@
         ><br />
 
         <button
-          class="dark:bg-gray-600 hover:bg-gray-500 bg-gray-400 border p-1 mt-2 rounded"
+          class="dark:bg-gray-600 text-white hover:bg-gray-500 bg-gray-400 border p-1 mt-2 rounded"
           type="submit">Create</button
         >
       </fieldset>

@@ -82,7 +82,9 @@
         <div class="m-1">
           {member.userName} - {member.userEmail}
           {#if rolesIndex(member, "owner") !== -1}
-            <span class="border p-1">List Admin</span>
+            <span class="border p-1 border-black dark:border-white"
+              >List Admin</span
+            >
           {/if}
           {#if member.confirm == false}
             <span class="border p-1">Pending</span>

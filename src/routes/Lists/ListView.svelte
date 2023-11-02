@@ -197,24 +197,24 @@
             {#if perakim[perekIndex(i)].taken == false}
               <button
                 on:click={() => takePerek(i)}
-                class="dark:bg-gray-600 bg-gray-400 border p-1 mt-2 rounded"
+                class="dark:bg-gray-600 bg-gray-400 border p-1 mt-2 rounded text-white"
                 >Take</button
               >
             {:else if perakim[perekIndex(i)].taken_by == loggedInUser["$id"] && perakim[perekIndex(i)].completed !== true}
               <button
                 on:click={() => untakePerek(i)}
-                class="dark:bg-gray-600 bg-gray-400 border p-1 mt-2 rounded"
+                class="dark:bg-gray-600 bg-gray-400 border p-1 mt-2 rounded text-white"
                 >Untake</button
               >
               <button
                 on:click={() => completePerek(i)}
-                class="dark:bg-gray-600 bg-gray-400 border p-1 mt-2 rounded"
+                class="dark:bg-gray-600 bg-gray-400 border p-1 mt-2 rounded text-white"
                 >Complete</button
               >
             {:else if perakim[perekIndex(i)].taken_by == loggedInUser["$id"] && perakim[perekIndex(i)].completed == true}
               <button
                 on:click={() => uncompletePerek(i)}
-                class="dark:bg-gray-600 bg-gray-400 border p-1 mt-2 rounded"
+                class="dark:bg-gray-600 bg-gray-400 border p-1 mt-2 rounded text-white"
                 >Uncomplete</button
               >
             {:else if perakim[perekIndex(i)].completed == false}
@@ -225,7 +225,7 @@
           {:else}
             <button
               on:click={() => takeNewPerek(i)}
-              class="dark:bg-gray-600 bg-gray-400 border p-1 mt-2 rounded"
+              class="dark:bg-gray-600 bg-gray-400 text-white border p-1 mt-2 rounded"
               >Take</button
             >
           {/if}<br />
